@@ -20,8 +20,8 @@ io.on('connection', (socket) => {
         socket.join(room);
     });
 
-    socket.on('message', (data) => {
-        io.to(data.room).emit('message', { message: data.message, sender: socket.id });
+    socket.on('message', (message) => {
+        io.emit('message', message);
     });
 
     socket.on('disconnect', () => {
