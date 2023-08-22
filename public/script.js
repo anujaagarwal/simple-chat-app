@@ -3,13 +3,13 @@ const sendButton = document.getElementById('sendButton'); // Updated this line
 const messageInput = document.getElementById('messageInput');
 const chatMessages = document.getElementById('chatMessages');
 const emojiMap = {
-        "react": "w",
-        "woah": ":o",
-        "hey": ":D",
-        "lol": ":)",
-        "like": "thu",
-        "congratulations": ":--)",
-    };
+    "react": "⚛️",
+    "woah": "😲",
+    "hey": "👋",
+    "lol": "😂",
+    "like": "🤍",
+    "congratulations": "🎉",
+  };
 
 sendButton.addEventListener('click', () => { // Updated this line
     const message = messageInput.value;
