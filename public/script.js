@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const socket = io();
+    const valuesMap = {}; // Store the values
     let username = null;
 
     while (!username) {
@@ -154,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function showHelpDialog() {
-        const helpMessage = "Welcome to the chat! Available commands:\n\n/help - Show this guide\n/random - Get a random number\n/clear - Clears the chat";
+        const helpMessage = "Welcome to the chat! Available commands:\n\n/help - Show this guide\n/random - Get a random number\n/clear - Clears the chat\n/rem <name> <value> - Sets and stores the value assigned to the name\n/calc <expression> - Acts as a calculator";
         alert(helpMessage);
     }
 
@@ -174,7 +175,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    const valuesMap = {}; // Store the values
-
     
+
+    socket.on('onlineUsers', (count) => {
+        updateOnlineUserCount(count);
+    });
+
+    function updateOnlineUserCount(count) {
+        const onlineUsersElement = document.getElementById('online-users');
+        onlineUsersElement.textContent = `Online Users: ${count}`;
+    }
 });

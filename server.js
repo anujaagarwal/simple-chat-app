@@ -6,6 +6,8 @@ const socketIO = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
+// Track online users
+let onlineUsers = 0;
 
 // app.get('/', (req, res) => {
 //     res.sendFile(__dirname + '/public/index.html');
@@ -15,6 +17,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
     console.log('A user connected');
+
+    // Increment the online user count and emit to all clients
+    onlineUsers++;
+    io.emit('onlineUsers', onlineUsers);
 
     socket.on('userJoined', (username) => {
         io.emit('userJoined', `${username} has joined the chat`);
@@ -26,6 +32,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('A user disconnected');
+        // Decrement the online user count and emit to all clients
+        onlineUsers--;
+        io.emit('onlineUsers', onlineUsers);
     });
 });
 
