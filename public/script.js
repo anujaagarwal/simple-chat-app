@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             for (const emojiCode in emojiMap) {
                 if (emojiMap.hasOwnProperty(emojiCode)) {
                     const emojiIcon = emojiMap[emojiCode];
-                    const regex = new RegExp(escapeRegExp(emojiCode), 'gi'); // Create case-insensitive regex
+                    const regex = new RegExp(`\\b${emojiCode}\\b`, 'gi'); // Create case-insensitive regex
                     replacedMessage = replacedMessage.replace(regex, emojiIcon);
                     console.log(replacedMessage)
                 }
@@ -88,11 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return replacedMessage;
 
     }
-
-    function escapeRegExp(str) {
-        return str.replace(/[.*+?^${}()|[\]\\]' '/g, '\\$&'); // Escape special characters
-    }
-
 
     function handleSlashCommand(command) {
         const parts = command.split(' ');
