@@ -104,12 +104,46 @@ document.addEventListener("DOMContentLoaded", () => {
             case '/clear':
                 clearChat();
                 break;
+            case '/rem':
+                const name = parts[1];
+                if (parts.length === 2) {
+                    // Recall value
+                    const value = valuesMap[name];
+                    if (value !== undefined) {
+                        addMessageToChat(`Value for ${name}: ${value}`);
+                    } else {
+                        addMessageToChat(`Value for ${name} not found.`);
+                    }
+                } else if (parts.length >= 3) {
+                    // Set value
+                    const value = parts.slice(2).join(' ');
+                    valuesMap[name] = value;
+                    addMessageToChat(`Value ${value} set for ${name}.`);
+                } else {
+                    addMessageToChat('Invalid /rem command. Usage: /rem <name> <value>');
+                }
+                break;
+            case '/calc':
+                if (parts.length === 2) {
+                    const expression = parts[1];
+                    try {
+                        const result = eval(expression); // Using eval for simplicity (caution: security risk)
+                        addMessageToChat(`Result: ${expression} = ${result}`);
+                    } catch (error) {
+                        addMessageToChat('Error in calculation. Please check your expression.');
+                    }
+                } else {
+                    addMessageToChat('Invalid /calc command. Usage: /calc <expression>');
+                }
+                break
             default:
                 addMessageToChat('Unknown command. Type /help for help.');
                 break;
         }
     }
 
+
+   
     function addMessageToChat(message) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', 'system');
@@ -138,4 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
     socket.on('userJoined', (username) => {
         displaySystemMessage(username);
     });
+
+
+    const valuesMap = {}; // Store the values
+
+    
 });
