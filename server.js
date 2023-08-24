@@ -16,8 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    socket.on('joinRoom', (room) => {
-        socket.join(room);
+    socket.on('userJoined', (username) => {
+        io.emit('userJoined', `${username} has joined the chat`);
     });
 
     socket.on('message', (message) => {
