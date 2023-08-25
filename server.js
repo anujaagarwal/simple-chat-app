@@ -26,8 +26,13 @@ io.on('connection', (socket) => {
         io.emit('userJoined', `${username} has joined the chat`);
     });
 
-    socket.on('message', (message) => {
-        io.emit('message', message);
+    socket.on('message', (data) => {
+        io.emit('message', data);
+    });
+
+    socket.on('storeValue', (data) => {
+        const { username, name, value } = data;
+        io.emit('storeValue', { username, name, value });
     });
 
     socket.on('disconnect', () => {

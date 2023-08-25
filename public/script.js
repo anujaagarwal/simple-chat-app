@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const socket = io();
-    const valuesMap = {}; // Store the values
     let username = null;
-
+    const valuesMap = {}; // Store the values
     while (!username) {
         username = prompt("Please enter your username:");
     }
@@ -28,13 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     function sendMessage(){
-            const message = messageInput.value;
+            let message = messageInput.value;
             console.log(message)
             if (message.startsWith('/')) {
                 handleSlashCommand(message);
         
             } else if (message.trim() !== ''){
-                socket.emit('message', handleEmojiReplacement(message));
+                message = handleEmojiReplacement(message)
+                socket.emit('message', {username, message});
             }
         
             messageInput.value = ''
@@ -53,10 +53,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    socket.on('message', (message) => {
+    socket.on('message', (data) => {
         const messageElement = document.createElement('div');
         messageElement.className = 'message';
-        if (message.sender === socket.id) {
+        if (data.message.sender === socket.id) {
             messageElement.classList.add('outgoing');
         } else {
             messageElement.classList.add('incoming');
@@ -64,16 +64,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const usernameElement = document.createElement('div');
         usernameElement.className = 'username';
-        usernameElement.textContent = username;
+        usernameElement.textContent = data.username;
 
         const textElement = document.createElement('div');
         textElement.className = 'text';
-        textElement.textContent = message;
+        textElement.textContent = data.message;
         
         messageElement.appendChild(usernameElement);
         messageElement.appendChild(textElement);
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+
+    socket.on('storeValue', (data) => {
+        displaySystemMessage(`${data.name}: ${data.value} stored by ${data.username}`);
     });
 
     function handleEmojiReplacement(message) {
@@ -118,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (parts.length >= 3) {
                     // Set value
                     const value = parts.slice(2).join(' ');
+                    socket.emit('storeValue', { username, name, value });
                     valuesMap[name] = value;
                     addMessageToChat(`Value ${value} set for ${name}.`);
                 } else {
