@@ -8,7 +8,7 @@ like: ":heart:",
 congratulations: "",
 
 
-```markdown
+
 # Real-Time Chat Application
 
 ![Chat Application Screenshot](./screenshot.png)
