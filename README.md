@@ -1,17 +1,11 @@
 
-# Add emoji search
-react: ":react:",
-woah: "",
-hey: "",
-lol: "",
-like: ":heart:",
-congratulations: "",
+
 
 
 
 # Real-Time Chat Application
 
-![Chat Application Screenshot](./screenshot.png)
+![Running Chat Application Link](https://one00x-messenger-anuja.onrender.com/)
 
 A real-time chat application built with Node.js and Socket.io. It allows users to join chat rooms, send messages, set and recall custom values, perform basic calculations, and use emoji replacements.
 
@@ -69,8 +63,12 @@ A real-time chat application built with Node.js and Socket.io. It allows users t
 - **Emoji Replacements:**
 
    Use emoji codes like `:)`, `:D`, etc., to automatically replace with emoji icons.
-
-
+   react: ":react:",
+   woah: "",
+   hey: "",
+   lol: "",
+   like: ":heart:",
+   congratulations: "",
 ## Technologies Used
 
 - Node.js
